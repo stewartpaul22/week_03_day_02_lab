@@ -13,7 +13,26 @@ class Bounty
     @id = options['id'].to_i if options['id']
   end
 
+  def save()
+    db = PG.connect({
+      dbname: 'space_cowboys',
+      host: 'localhost'
+      })
 
-  
+    sql = "INSERT INTO bounty_details (
+    name, species, bounty_value, homeworld
+    ) VALUES (
+      $1, $2, $3, $4
+      ) RETURNING *"
+
+      values = [@name, @species, @bounty_value, @homeworld]
+
+      db.prepare("save", sql)
+
+      @id = db.exec_prepared("save", values)[0]["id"].to_i
+
+      db.close()
+  end
+
 
 end
