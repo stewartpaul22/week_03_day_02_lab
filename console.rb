@@ -18,6 +18,9 @@ bounty2 = Bounty.new({
 bounty1.save()
 bounty2.save()
 
+bounty1.species = "Dog"
+bounty1.update()
+
 bounty_details = Bounty.all()
 
 binding.pry
