@@ -37,6 +37,7 @@ class Bounty
     db.prepare("all", sql)
     bounty_details = db.exec_prepared("all")
     db.close()
+
     return bounty_details.map{|bounty| Bounty.new(bounty)}
   end
 
@@ -50,7 +51,7 @@ class Bounty
   end
 
   def update()
-      db = PG.connect({dbname: 'bounty_details', host: 'localhost'})
+      db = PG.connect({dbname: 'space_cowboys', host: 'localhost'})
       sql = "UPDATE bounty_details SET (name, species, bounty_value, homeworld) = ($1, $2, $3, $4) WHERE id=$5"
       values = [@name, @species, @bounty_value, @homeworld, @id]
       db.prepare("update", sql)
