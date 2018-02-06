@@ -31,11 +31,20 @@ class Bounty
       db.close()
   end
 
+  def Bounty.all()
+    db = PG.connect({dbname: 'space_cowboys', host: 'localhost'})
+    sql = "SELECT * FROM bounty_details"
+    db.prepare("all", sql)
+    bounty_details = db.exec_prepared("all")
+    db.close()
+    return bounty_details.map{|bounty| Bounty.new(bounty)}
+  end
+
   def delete()
-    db = PG.connect({dbname: 'space_cowboys',host: 'localhost'})
+    db = PG.connect({dbname: 'space_cowboys', host: 'localhost'})
     sql = "DELETE FROM bounty_details WHERE id=$1"
     values = [@id]
-    db.prepare("delete", sql)
+    db.prepare("delete_one", sql)
     db.exec_prepared("delete_one", values)
     db.close()
   end
